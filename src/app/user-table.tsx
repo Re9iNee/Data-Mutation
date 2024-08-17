@@ -11,13 +11,10 @@ import Link from "next/link";
 import { User } from "./types/user";
 import UserTableRow from "./user-table-row";
 
-export default function UserTable() {
-  const users: User[] = [
-    { id: 1, name: "John Doe", email: "john.doe@example.com" },
-    { id: 2, name: "Alice Burgers", email: "alice.burgers@example.com" },
-    { id: 3, name: "Hugh As", email: "hug.as@example.com" },
-  ];
-
+type Props = {
+  users: User[];
+};
+export default function UserTable({ users }: Props) {
   return (
     <Table>
       <TableCaption>A list of users.</TableCaption>

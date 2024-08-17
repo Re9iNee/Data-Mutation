@@ -9,7 +9,7 @@ type Props = {
 export default function UserTableRow({ user }: Props) {
   return (
     <TableRow>
-      <TableCell className='font-medium'>{user.id}</TableCell>
+      <TableCell className='font-thin text-xs'>{user.id}</TableCell>
       <TableCell>{user.name}</TableCell>
       <TableCell>{user.email}</TableCell>
       <TableCell className='text-right'>
