@@ -1,10 +1,9 @@
-import { Button } from "@/components/ui/button";
-import UserCreateForm from "./create-form";
+import UserTable from "./user-table";
 
 export default function Home() {
   return (
     <main className=''>
-      <UserCreateForm />
+      <UserTable />
     </main>
   );
 }
