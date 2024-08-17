@@ -5,10 +5,11 @@ import {
   AtSymbolIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
+import { createUser } from "./actions";
 
 export default function UserCreateForm() {
   return (
-    <form>
+    <form action={createUser}>
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
         {/* name input */}
         <div className='mb-4'>
