@@ -1,13 +1,26 @@
 "use server";
 
 import { sql } from "@vercel/postgres";
-import { User } from "./types/user";
-import { redirect } from "next/navigation";
 import { hash } from "bcryptjs";
+import { redirect } from "next/navigation";
+import { User } from "./types/user";
+
+import { z } from "zod";
+
+const userSchema = z.object({
+  name: z.string().min(3).max(50),
+  email: z.string().email(),
+  password: z.string().min(6),
+});
 
 export async function createUser(formData: FormData) {
-  const { name, email, password } = validateCreateUserInputs(formData);
+  const parsedResult = userSchema.safeParse(Object.fromEntries(formData));
 
+  if (!parsedResult.success) {
+    return;
+  }
+
+  const { name, email, password } = parsedResult.data;
   const hashedPassword = await hash(password, 12);
 
   try {
@@ -18,22 +31,6 @@ export async function createUser(formData: FormData) {
   }
 
   redirect("/");
-}
-
-function validateCreateUserInputs(formData: FormData) {
-  const name = formData.get("name");
-  const email = formData.get("email");
-  const password = formData.get("password");
-
-  if (
-    typeof name !== "string" ||
-    typeof email !== "string" ||
-    typeof password !== "string"
-  ) {
-    throw new Error("Invalid Inputs");
-  }
-
-  return { name, email, password };
 }
 
 export async function updateUser(id: string, formData: FormData) {
