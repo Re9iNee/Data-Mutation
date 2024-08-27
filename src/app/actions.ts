@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { User } from "./types/user";
 
 import { z } from "zod";
+import { toFieldErrorsType } from "@/lib/utils";
 
 const userSchema = z.object({
   name: z.string().min(3).max(50),
@@ -13,11 +14,18 @@ const userSchema = z.object({
   password: z.string().min(6),
 });
 
-export async function createUser(formData: FormData) {
+type userType = z.infer<typeof userSchema>;
+
+export async function createUser(
+  prevState: any,
+  formData: FormData
+): Promise<toFieldErrorsType<userType>> {
   const parsedResult = userSchema.safeParse(Object.fromEntries(formData));
 
   if (!parsedResult.success) {
-    return;
+    const errors = parsedResult.error.flatten().fieldErrors;
+
+    return errors;
   }
 
   const { name, email, password } = parsedResult.data;

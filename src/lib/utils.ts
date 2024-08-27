@@ -5,6 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export type TransformToFieldErrorsType<T> = {
+export type toFieldErrorsType<T> = {
   [K in keyof T]?: T[K][] | undefined;
 };

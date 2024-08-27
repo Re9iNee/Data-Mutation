@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
@@ -6,10 +8,13 @@ import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import { createUser } from "./actions";
+import { useActionState } from "react";
 
 export default function UserCreateForm() {
+  const [state, action, isPending] = useActionState(createUser, null);
+
   return (
-    <form action={createUser}>
+    <form action={action}>
       <div className='rounded-md bg-gray-50 p-4 md:p-6'>
         {/* name input */}
         <div className='mb-4'>
@@ -28,6 +33,7 @@ export default function UserCreateForm() {
               <UserCircleIcon className='pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900' />
             </div>
           </div>
+          {state?.name && <p className='text-red-500'>{state.name}</p>}
         </div>
         {/* email input */}
         <div className='mb-4'>
@@ -46,6 +52,7 @@ export default function UserCreateForm() {
               <AtSymbolIcon className='pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900' />
             </div>
           </div>
+          {state?.email && <p className='text-red-500'>{state.email}</p>}
         </div>
         {/* password input */}
         <div className='mb-4'>
@@ -65,6 +72,7 @@ export default function UserCreateForm() {
             </div>
           </div>
         </div>
+        {state?.password && <p className='text-red-500'>{state.password}</p>}
       </div>
       <div className='mt-6 flex justify-end gap-4'>
         <Link
@@ -73,7 +81,9 @@ export default function UserCreateForm() {
         >
           Cancel
         </Link>
-        <Button type='submit'>Create User</Button>
+        <Button type='submit' disabled={isPending}>
+          {isPending ? "Loading" : "Create User"}
+        </Button>
       </div>
     </form>
   );
