@@ -1,12 +1,8 @@
 import { Button } from "@/components/ui/button";
+import { AtSymbolIcon, UserCircleIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import {
-  UserCircleIcon,
-  AtSymbolIcon,
-  LockClosedIcon,
-} from "@heroicons/react/24/outline";
-import { updateUser } from "./actions";
-import { User } from "./types/user";
+import { updateUser } from "../actions";
+import { User } from "../types/user";
 
 type Props = {
   previousData: User;

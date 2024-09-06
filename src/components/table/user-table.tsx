@@ -8,7 +8,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import Link from "next/link";
-import { User } from "./types/user";
+
+import { User } from "@/app/types/user";
 import UserTableRow from "./user-table-row";
 
 type Props = {

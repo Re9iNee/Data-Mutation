@@ -1,8 +1,7 @@
-import UserEditForm from "@/app/edit-form";
-import { User } from "@/app/types/user";
-import { sql } from "@vercel/postgres";
+import UserEditForm from "@/app/edit/edit-form";
+import sql from "@/lib/db";
+
 import { notFound } from "next/navigation";
-import React from "react";
 
 export default async function EditUserPage({
   params,
@@ -12,7 +11,7 @@ export default async function EditUserPage({
   const id = params.id;
   if (!id) notFound();
 
-  const user = await sql<User>`SELECT * FROM users WHERE id=${id}`;
+  const user: any = (await sql`SELECT * FROM users WHERE id=${id}`)[0];
 
-  return <UserEditForm previousData={user.rows[0]} />;
+  return <UserEditForm previousData={user} />;
 }

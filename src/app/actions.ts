@@ -1,12 +1,11 @@
 "use server";
 
-import { sql } from "@vercel/postgres";
 import { hash } from "bcryptjs";
 import { redirect } from "next/navigation";
-import { User } from "./types/user";
 
-import { z } from "zod";
+import sql from "@/lib/db";
 import { toFieldErrorsType } from "@/lib/utils";
+import { z } from "zod";
 
 const userSchema = z.object({
   name: z.string().min(3).max(50),
@@ -32,7 +31,7 @@ export async function createUser(
   const hashedPassword = await hash(password, 12);
 
   try {
-    await sql<User>`INSERT INTO users (name, email, password) VALUES (${name}, ${email}, ${hashedPassword})`;
+    await sql`INSERT INTO users (name, email, password) VALUES (${name}, ${email}, ${hashedPassword})`;
     console.log("Created a new user");
   } catch (e) {
     throw new Error(`Couldnt create a new user, ${e}`);
@@ -45,7 +44,7 @@ export async function updateUser(id: string, formData: FormData) {
   const { name, email } = validateUpdateUserInputs(formData);
 
   try {
-    await sql<User>`UPDATE users SET name=${name}, email=${email} WHERE id=${id}`;
+    await sql`UPDATE users SET name=${name}, email=${email} WHERE id=${id}`;
   } catch (e) {
     throw new Error(`Couldnt update user with id ${id}, ${e}`);
   }
