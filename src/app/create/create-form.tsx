@@ -1,14 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import {
-  UserCircleIcon,
   AtSymbolIcon,
   LockClosedIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
-import { createUser } from "./actions";
+import Link from "next/link";
+
 import { useActionState } from "react";
+import { createUser } from "../actions";
 
 export default function UserCreateForm() {
   const [state, action, isPending] = useActionState(createUser, null);
